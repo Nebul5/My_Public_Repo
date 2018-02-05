@@ -1,0 +1,34 @@
+
+html,
+body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+    font-family: Courier, sans-serif;
+}
+
+body {
+    display: table-cell;
+    vertical-align: top;
+    font-family: Courier, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    font-family: Courier
+}
+
+table {
+    width: 100%;
+    border: blue;
+}
+
+td,
+th {
+    border-radius: 5px;
+    background: lightgrey;
+}
