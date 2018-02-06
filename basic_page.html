@@ -1,62 +1,76 @@
+<!-- *********************** -->
+<!--    basic_page.html      -->
+<!--     by Jake Conner      -->
+<!-- *********************** -->
 <!DOCTYPE html>
 <html>
 
 <head>
-    <!--  -->
+    <!-- Document Title -->
     <title>A Very Basic Web Page</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
-    <!--  -->
+    <!-- Page Title -->
     <h1> Software Construction: Part A </h1>
-    <!-- Your name/alias -->
+    <!-- Name -->
     <h2>Jake Conner</h2>
     <hr/>
 
+    <!-- Vertex Shader -->
     <script id="vshader" type="x-shader/x-vertex">
     
-        uniform mat4 model_view;
-        uniform mat4 projection_matrix;
-
-        attribute vec4 vertex_orient;
+        attribute vec4 vertex_pos;
 
         void main()
         {
-            gl_Position = projection_matrix * model_view * vertex_orient;
+            gl_Position = vertex_pos;
         }
 
     </script>
 
+    <!-- Fragment Shader -->
     <script id="fshader" type="x-shader/x-fragment">
 
         #ifdef GL_ES
-        precision mediump float;
+        precision highp float;
         #endif
 
         void main()
         {
-            gl_FragColor = vec4(0., 0., 0., 1.);
+            gl_FragColor = vec4(0., 0., 1., 1.);
         }
         
     </script>
 
+    <!-- Some very basic javascript -->
     <script src="basic_script.js"></script>
     <script>
         "use strict";
         var newdiv = document.createElement("div");
         var canvas = document.createElement("canvas");
-        
+
         newdiv.align = "center";
+
+        document.body.appendChild(canvas);
         document.body.appendChild(newdiv);
         newdiv.appendChild(canvas);
 
         var gl = canvas.getContext("webgl");
-        var shaders = new shaderProg(gl, document.getElementById('vshader'), document.getElementById('fshader'));
+        var shaders = new shaderProg(gl, document.getElementById('vshader').text, document.getElementById('fshader').text);
 
-        gl.clearColor(0.6, 0.1, 0.0, 1.0);
-        gl.viewport(0, 0, 800, 800);
+        gl.clearColor(0.2, 0.5, 0.8, 1.0);
+        gl.viewport(0, 0, 800, 500);
         gl.clear(gl.COLOR_BUFFER_BIT);
+
+        var aspect = canvas.width / canvas.height;
+        var triangle = new vbo(gl, new Float32Array([
+        -0.8, -0.25*aspect, 0.0, 1.0, -0.4,-0.45*aspect, 0.0, 1.0, -0.8,-0.45*aspect, 0.0, 1.0
+        ]));
+
+        triangle.draw(gl.getAttribLocation(shaders.program, "vertex_pos"));
+
     </script>
     <hr/>
 </body>
